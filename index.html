@@ -1,1 +1,211 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Election Results Dashboard</title>
 
+  <!-- CSS Files -->
+   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+
+  <!Scripts-->
+    <script src="js/jquery-3.2.1.min.js"></script>
+     <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+
+    <script type="text/javascript" src="js/jquery.color.js"> </script>
+    <script type="text/javascript" src="js/script.js"> </script>
+
+<style>
+.state {
+}
+.state01 { fill: red; }
+.state02 { fill: red; }
+.state04 { fill: red; }
+.state05 { fill: red; }
+.state06 { fill: blue; }
+.state08 { fill: red; }
+.state09 { fill: blue; }
+.state10 { fill: blue; }
+.state11 { fill: blue; }
+/*.subunit.SCT { fill: #ddc; }
+.subunit.WLS { fill: #cdd; }
+.subunit.NIR { fill: #cdc; }
+.subunit.ENG { fill: #dcd; }
+.subunit.IRL { display: none; }*/
+</style>
+  </head>
+
+  <body>
+
+    <div id="container">
+       <header id="masthead">
+        <p>
+        Election Results Dashboard 
+        </p>
+       </header>
+       <div id="one"> </div>
+
+       <div id="intro">
+        The Election Results Dashboard represents the primary election results from the years 2004, 2008, and 2012. Reviewing the results will uncover patterns and trends, which could help future campaign and marketing strategies. Use the visualization tool below to explore how the different states, regions, and country voted in the past several elections. 
+       </div>
+
+      <div id="map"></div>
+      
+
+       <p> We'd like to hear from you. Please fill out our survey. </p>
+       <form id="myForm" action="submit" enctype="multipart/form-data" method="post" name="formResponse">
+
+      <!-- State Dropdown Selection-->
+        <label id="states">Please enter a state:</label>
+        <input type="text" placeholder="State" name="state">         
+        <br>
+      <!-- Candiates Dropdown Selection-->
+      <label id="candidates">Please enter a candidate name:</label>
+      <input type="text" placeholder="Candidate" name="candidates">      
+        <br>
+
+      <!-- Vote Section-->
+      <label>Place Vote Total:</label>
+          <input type="text" placeholder="Number" name="votes">
+          <br>
+          <input id="button" type="button" onclick="notify()" value="Submit">
+      </form>
+      <pre class="debug"></pre>
+    </div> 
+      
+
+
+<script>
+  var stateObjs; //Hold the json data
+  var section = document.querySelector('section');
+  $(document).ready(function(){ //when document is ready it will do an ajax request
+    var requestURL = 'https://raw.githubusercontent.com/TimeMagazine/presidential-election-results/master/data/results_2004.json';
+    $.ajax({ //ajax request format
+        url: requestURL,
+        context: document.body,
+        dataType: "json"
+    }).done(function(data) {
+      stateObjs = data;
+      console.log(data); 
+    });
+  });
+  var output = '';
+  var someArray = [];//To hold the properties looped through below
+  //Loop to go through each state and then each candidate then get the properties of the candidate
+  // $.each(stateObjs,function(key,state){
+  //   $.each(state, function(key,candidate){
+  //     console.log('state: ' + candidate.state + ' candidate: '+ candidate.name + ' votes: ' + candidate.votes);
+  //     c.push(someArray);
+  //     });
+  // });
+  for (var state in stateObjs){
+    if (stateObjs.hasOwnProperty(state)) {
+        console.log(state + " -> " + stateObjs[state]);
+      for (var candidate in stateObjs[state]){
+        if(stateObjs[state].hasOwnProperty(candidate)){
+                console.log(candidate + " -> " + stateObjs[state][candidate]);
+          var c = stateObjs[state][candidate];
+          c.push(someArray);
+          console.log('state: ' + c.state + ' candidate: '+ c.name + ' votes: ' + c.votes);
+        }
+          }
+      }
+  }
+      // var update = document.createElement('h1');
+      // var update = document.getElementById('container');
+      // update.textContent = someArray;
+      // section.appendChild(update);
+    
+  
+    // document.getElementById("container").innerHTML = "My First JavaScript";
+      // var update = document.getElementById('links');
+      // update.innerHTML = output;
+      
+      
+//stateObjs["2004_AK"]["Bush, George W."].name
+    // var streets = L.tileLayer('http://{s}.tiles.mapbox.com/v3/jtreinke.mo6k9ic3/{z}/{x}/{y}.png', {
+    //         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+    //         maxZoom: 18
+    //         }).addTo(map);
+    // var map = L.map('map', {
+    //   center: [48.854, 2.344],
+    //   zoom: 15,
+    //   layers: [streets]
+    //   });
+    function notify() {
+      //serialize input 
+      //send to debug class
+      $(".debug").text($("#myForm").serialize());
+      alert( "Sent to Debug Class" );
+    }
+    $( "button" ).on( "click", notify );
+      // adding Streets layer from mapbox                     
+      var satellite = L.tileLayer('http://{s}.tiles.mapbox.com/v3/jtreinke.mo6k9ic3/{z}/{x}/{y}.png', {
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+        maxZoom: 18
+        });
+     
+      //add paris map 1814
+      var map = L.map('map', {
+        center: [39.8282, -98.5795],
+        zoom: 4,
+        layers: [satellite],
+        maxZoom:17
+        });
+      
+      var baseMaps = {
+        "Satellite Imagery": satellite
+        };
+   
+    L.control.layers(baseMaps, {
+        position: 'topleft'
+    }).addTo(map);
+      
+    L.geoJSON(geojsonFeature).addTo(map);
+    var myLayer = L.geoJSON().addTo(map);
+    myLayer.addData(geojsonFeature);
+  // $( "myForm" ).on( "submit", function( event ) {
+  //   event.preventDefault();
+  //   console.log( $( this ).serialize() );
+  // });
+    // $(document).ready(function(){
+    //     $("button").click(function(){
+    //         $("div").text($("form").serialize());
+    //     });
+    // });
+  </script>
+
+    <svg width="960" height="600" fill="none" stroke="#000" stroke-linejoin="round" stroke-linecap="round"></svg>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="topojsonlib.js"></script>
+    <script>
+    var svg = d3.select("svg");
+    var path = d3.geoPath();
+    d3.json("https://unpkg.com/us-atlas@1/us/10m.json", function(error, us) {
+      if (error) throw error;
+  // svg.append("path")
+  //     .attr("stroke", "#aaa")
+  //     .attr("stroke-width", 0.5)
+  //     .attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b && (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
+  // svg.append("path")
+  //     .attr("stroke-width", 5)
+  //     .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
+  //
+  // svg.append("path")
+  //     .attr("stroke-width", 1.5)
+  //     .attr("d", path(topojson.feature(us, us.objects.nation)));
+  svg.selectAll(".states")
+      .data(topojson.feature(us, us.objects.states).features)
+      .enter().append("path")
+      .attr("stroke-width", 2)
+      .attr("class", function(d) { return "state" + d.id; })
+      .attr("d", path);
+});
+</script>
+
+
+  </body>
+</html>
