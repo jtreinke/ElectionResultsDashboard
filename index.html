@@ -135,10 +135,11 @@
         The Election Results Dashboard represents the election results from the years 2004, 2008, and 2012. Reviewing the results will uncover patterns and trends, which could help future campaign and marketing strategies. Use the visualization tool below to explore how the different states, regions, and country voted in the past several elections. 
        </div>
 
-       <section></section>
+       <section>2004 Election Results</section>
+
        <svg width="940" height="600" fill="none" stroke="#000" stroke-linejoin="round" stroke-linecap="round"></svg> 
 
-      <div id="map"></div>
+<!--       <div id="map"></div> -->
       
 
        <p> We'd like to hear from you. Please fill out our survey. </p>
@@ -227,26 +228,26 @@
 
       //Start of Leaflet
       // adding Streets layer from mapbox                     
-      var satellite = L.tileLayer('http://{s}.tiles.mapbox.com/v3/jtreinke.mo6k9ic3/{z}/{x}/{y}.png', {
-        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-        maxZoom: 18
-        });
+    //   var satellite = L.tileLayer('http://{s}.tiles.mapbox.com/v3/jtreinke.mo6k9ic3/{z}/{x}/{y}.png', {
+    //     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
+    //     maxZoom: 18
+    //     });
      
-      //add paris map 1814
-      var map = L.map('map', {
-        center: [39.8282, -98.5795],
-        zoom: 5,
-        layers: [satellite],
-        maxZoom:17
-        });
+    //   //add paris map 1814
+    //   var map = L.map('map', {
+    //     center: [39.8282, -98.5795],
+    //     zoom: 5,
+    //     layers: [satellite],
+    //     maxZoom:17
+    //     });
       
-      var baseMaps = {
-        "Satellite Imagery": satellite
-        };
+    //   var baseMaps = {
+    //     "Satellite Imagery": satellite
+    //     };
    
-    L.control.layers(baseMaps, {
-        position: 'topleft'
-    }).addTo(map);
+    // L.control.layers(baseMaps, {
+    //     position: 'topleft'
+    // }).addTo(map);
       
 
   // $( "myForm" ).on( "submit", function( event ) {
