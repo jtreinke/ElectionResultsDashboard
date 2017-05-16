@@ -21,15 +21,98 @@
 <style>
 .state {
 }
+/*A*/
 .state01 { fill: red; }
 .state02 { fill: red; }
 .state04 { fill: red; }
 .state05 { fill: red; }
+
+/*C*/
+
 .state06 { fill: blue; }
 .state08 { fill: red; }
 .state09 { fill: blue; }
+
+/*D*/
 .state10 { fill: blue; }
 .state11 { fill: blue; }
+
+/*F*/
+.state12 { fill: red; }
+
+/*G*/
+.state13 { fill: red; }
+
+/*H*/
+.state15 { fill: blue; }
+
+/*I*/
+.state16 { fill: red; }
+.state17 { fill: blue; }
+.state18 { fill: red; }
+.state19 { fill: red; }
+
+/*K*/
+.state20 { fill: red; }
+.state21 { fill: red; }
+
+/*L*/
+.state22 { fill: red; }
+
+/*M*/
+.state23 { fill: blue; }
+.state24 { fill: blue; }
+.state25 { fill: blue; }
+.state26 { fill: blue; }
+.state27 { fill: blue; }
+.state28 { fill: red; }
+.state29 { fill: red; }
+.state30 { fill: red; }
+
+/*N*/
+.state30 { fill: red; }
+.state31 { fill: red; }
+.state32 { fill: red; }
+.state33 { fill: blue; }
+.state34 { fill: blue; }
+.state35 { fill: red; }
+.state36 { fill: blue; }
+.state37 { fill: red; }
+.state38 { fill: red; }
+
+/*O*/
+.state39 { fill: red; }
+.state40 { fill: red; }
+.state41 { fill: blue; }
+
+/*P*/
+.state42 { fill: red; }
+
+/*R*/
+.state44 { fill: blue; }
+
+/*S*/
+.state45 { fill: red; }
+.state46 { fill: red; }
+
+/*T*/
+.state47 { fill: red; }
+.state48 { fill: red; }
+
+
+/*U*/
+.state49 { fill: red; }
+
+/*V*/
+.state50 { fill: blue; }
+.state51 { fill: red; }
+
+/*W*/
+.state53{ fill: blue; }
+.state54 { fill: red; }
+.state55 { fill: blue; }
+.state56 { fill: red; }
+
 /*.subunit.SCT { fill: #ddc; }
 .subunit.WLS { fill: #cdd; }
 .subunit.NIR { fill: #cdc; }
@@ -49,8 +132,11 @@
        <div id="one"> </div>
 
        <div id="intro">
-        The Election Results Dashboard represents the primary election results from the years 2004, 2008, and 2012. Reviewing the results will uncover patterns and trends, which could help future campaign and marketing strategies. Use the visualization tool below to explore how the different states, regions, and country voted in the past several elections. 
+        The Election Results Dashboard represents the election results from the years 2004, 2008, and 2012. Reviewing the results will uncover patterns and trends, which could help future campaign and marketing strategies. Use the visualization tool below to explore how the different states, regions, and country voted in the past several elections. 
        </div>
+
+       <section></section>
+       <svg width="940" height="600" fill="none" stroke="#000" stroke-linejoin="round" stroke-linecap="round"></svg> 
 
       <div id="map"></div>
       
@@ -58,11 +144,11 @@
        <p> We'd like to hear from you. Please fill out our survey. </p>
        <form id="myForm" action="submit" enctype="multipart/form-data" method="post" name="formResponse">
 
-      <!-- State Dropdown Selection-->
+      <!-- State Section-->
         <label id="states">Please enter a state:</label>
         <input type="text" placeholder="State" name="state">         
         <br>
-      <!-- Candiates Dropdown Selection-->
+      <!-- Candiates Section-->
       <label id="candidates">Please enter a candidate name:</label>
       <input type="text" placeholder="Candidate" name="candidates">      
         <br>
@@ -93,14 +179,18 @@
     });
   });
   var output = '';
-  var someArray = [];//To hold the properties looped through below
-  //Loop to go through each state and then each candidate then get the properties of the candidate
+  var someArray = [];
+  //To hold the properties looped through below
+ 
+
   // $.each(stateObjs,function(key,state){
   //   $.each(state, function(key,candidate){
   //     console.log('state: ' + candidate.state + ' candidate: '+ candidate.name + ' votes: ' + candidate.votes);
   //     c.push(someArray);
   //     });
   // });
+
+   //Loop to go through each state and then each candidate then get the properties of the candidate
   for (var state in stateObjs){
     if (stateObjs.hasOwnProperty(state)) {
         console.log(state + " -> " + stateObjs[state]);
@@ -115,26 +205,15 @@
       }
   }
       // var update = document.createElement('h1');
-      // var update = document.getElementById('container');
+      // var update = document.getElementById('section');
       // update.textContent = someArray;
       // section.appendChild(update);
     
   
-    // document.getElementById("container").innerHTML = "My First JavaScript";
-      // var update = document.getElementById('links');
-      // update.innerHTML = output;
-      
       
 //stateObjs["2004_AK"]["Bush, George W."].name
-    // var streets = L.tileLayer('http://{s}.tiles.mapbox.com/v3/jtreinke.mo6k9ic3/{z}/{x}/{y}.png', {
-    //         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
-    //         maxZoom: 18
-    //         }).addTo(map);
-    // var map = L.map('map', {
-    //   center: [48.854, 2.344],
-    //   zoom: 15,
-    //   layers: [streets]
-    //   });
+
+  //Submit Button
     function notify() {
       //serialize input 
       //send to debug class
@@ -142,6 +221,11 @@
       alert( "Sent to Debug Class" );
     }
     $( "button" ).on( "click", notify );
+
+
+
+
+      //Start of Leaflet
       // adding Streets layer from mapbox                     
       var satellite = L.tileLayer('http://{s}.tiles.mapbox.com/v3/jtreinke.mo6k9ic3/{z}/{x}/{y}.png', {
         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>',
@@ -164,9 +248,7 @@
         position: 'topleft'
     }).addTo(map);
       
-    L.geoJSON(geojsonFeature).addTo(map);
-    var myLayer = L.geoJSON().addTo(map);
-    myLayer.addData(geojsonFeature);
+
   // $( "myForm" ).on( "submit", function( event ) {
   //   event.preventDefault();
   //   console.log( $( this ).serialize() );
@@ -178,7 +260,6 @@
     // });
   </script>
 
-    <svg width="960" height="600" fill="none" stroke="#000" stroke-linejoin="round" stroke-linecap="round"></svg>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="topojsonlib.js"></script>
     <script>
@@ -186,6 +267,7 @@
     var path = d3.geoPath();
     d3.json("https://unpkg.com/us-atlas@1/us/10m.json", function(error, us) {
       if (error) throw error;
+
   // svg.append("path")
   //     .attr("stroke", "#aaa")
   //     .attr("stroke-width", 0.5)
